@@ -873,14 +873,6 @@ export default function App() {
         </div>
       </div>
 
-      {/* --- ログエリア (最下段) --- */}
-      <div className="mt-auto pt-2">
-        <div className="bg-black rounded border border-slate-800 p-2 overflow-y-auto h-16 text-xs text-green-600 font-sans">
-          {logs.map((l, i) => <div key={i} className="mb-1">{l}</div>)}
-          <div ref={logsEndRef} />
-        </div>
-      </div>
-
       {/* --- モーダル群 --- */}
       {modal && (
         <div className="fixed inset-0 bg-black/95 flex items-center justify-center p-2 sm:p-4 z-50">
