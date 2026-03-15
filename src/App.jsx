@@ -761,7 +761,8 @@ export default function App() {
       </div>
 
       {/* --- 中央エリア (ドローボタン) --- */}
-      <div className="flex flex-col gap-2 my-2 min-h-[80px] justify-center relative w-full">
+      {/* 修正点: コンテナに flex-1 を付与し、上下のプレイヤーエリアの中間に要素を自動配置させる */}
+      <div className="flex-1 flex flex-col gap-2 my-2 min-h-[80px] justify-center relative w-full">
         {gameState === 'DRAW' || gameState === 'DRAWING' ? (
           <button 
             onClick={gameState === 'DRAW' ? handleSimultaneousDraw : undefined}
