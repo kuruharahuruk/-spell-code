@@ -19,7 +19,6 @@ export default function App() {
   const [drawTime, setDrawTime] = useState(1.8);
   const [drawMode, setDrawMode] = useState('manual'); 
   
-  // プレイヤー名・ライフ設定のState
   const [player1Name, setPlayer1Name] = useState('PLAYER 1');
   const [player2Name, setPlayer2Name] = useState('PLAYER 2');
   const [maxLife, setMaxLife] = useState(3);
@@ -119,13 +118,11 @@ export default function App() {
   const initGame = (currentNormal = normalCodes, currentLag = lagCodes, currentMaxLife = maxLife, p1Name = player1Name, p2Name = player2Name) => {
     let allCards = [...currentLag, ...ROOT_CODES, ...currentNormal];
     
-    // シャッフル処理
     for (let i = allCards.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [allCards[i], allCards[j]] = [allCards[j], allCards[i]];
     }
 
-    // 隠しコマンド（デバッグモード）：ラグコードの先頭が「・ハルク・」ならサドンデス確定配列を生成
     if (currentLag.length > 0 && currentLag[0] === '・ハルク・') {
       const root1 = allCards.find(c => isRootCode(c)) || ROOT_CODES[0];
       const root2 = allCards.find(c => isRootCode(c) && c !== root1) || ROOT_CODES[1];
@@ -442,20 +439,6 @@ export default function App() {
     return 'bg-slate-800 border-slate-500 text-white';
   };
 
-  const getStackFontSize = (len, isMain) => {
-    if (isMain) {
-      if (len <= 10) return 'text-xl';
-      if (len <= 16) return 'text-lg';
-      if (len <= 22) return 'text-base';
-      if (len <= 30) return 'text-sm';
-      return 'text-xs';
-    } else {
-      if (len <= 16) return 'text-sm';
-      if (len <= 25) return 'text-xs';
-      return 'text-[10px]';
-    }
-  };
-
   const renderStack = (stack, isAttacker, isMain) => {
     if (stack.length === 0) return <span className="text-slate-600 text-sm w-full text-center">スタック空</span>;
     
@@ -529,7 +512,8 @@ export default function App() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-950 text-green-400 font-mono p-4 flex flex-col max-w-2xl mx-auto select-none overflow-hidden relative">
+    // 最外郭コンテナ： h-[100dvh] でモバイルの動的ビューポートに対応し、pb-12 で下から押し上げる
+    <div className="h-[100dvh] bg-slate-950 text-green-400 font-mono p-4 pb-12 flex flex-col max-w-2xl mx-auto select-none overflow-hidden relative">
       
       <style>{`
         @keyframes drawCard {
@@ -805,8 +789,8 @@ export default function App() {
         )}
       </div>
 
-      {/* --- プレイヤー1 (下部) --- */}
-      <div className={`p-4 rounded-lg border-2 ${p1.frozen && activePlayer === 1 ? 'border-blue-800 bg-blue-950/20' : (gameState === 'ACTION' && activePlayer === 1) ? 'border-green-500 bg-green-950/20' : 'border-slate-800 bg-slate-900'} mb-2 transition-all relative`}>
+      {/* --- プレイヤー1 (下部) --- mb-6 でさらに下から押し上げる */}
+      <div className={`p-4 rounded-lg border-2 ${p1.frozen && activePlayer === 1 ? 'border-blue-800 bg-blue-950/20' : (gameState === 'ACTION' && activePlayer === 1) ? 'border-green-500 bg-green-950/20' : 'border-slate-800 bg-slate-900'} mb-6 transition-all relative`}>
         <div className="flex justify-between items-center mb-2">
           <h2 className="text-base font-bold text-slate-200 flex items-center gap-2 truncate">
             {player1Name}
